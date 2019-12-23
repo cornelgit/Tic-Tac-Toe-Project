@@ -24,14 +24,16 @@ void displayWelcome();
 void gameMode();
 void displayControls();
 void singlePlayer();
+void multiPlayer();
 void displayStartGrid();
-void playerOneMove(char, char);
+void playerOneMove(char, char, bool);
+void playerTwoMove(char, char, bool);
 bool checkTaken(int);
 void cpuMove(char, char);
 int diceRoll();
-void placePlayerOneSelection(int, char);
-void checkIfWin(char, char);
-void displayUpdatedBoard(char, char);
+void placePlayerSelection(int, char);
+void checkIfWin(char, char, bool);
+void displayUpdatedBoard();
 void cpuChoicePrint(int);
 void displayWinningBoard(const char gameArray[ROW][COLUMN], string);
 
@@ -99,7 +101,7 @@ void gameMode()
 
     do {
 
-        cout << "Available Game Mode. " << endl;
+        cout << "Available Game Modes. " << endl;
         cout << "Single Player (vs CPU) \t(1) " << endl;
         cout << "Two Player (vs player) \t(2) " << endl << endl;
         cout << "Please make a selection: ";
@@ -116,8 +118,10 @@ void gameMode()
 
     } while (modeChoice != 1 && modeChoice != 2);
 
-     if (modeChoice == 1)
-         singlePlayer();
+    if (modeChoice == 1)
+        singlePlayer();
+    else
+        multiPlayer();
 
 }
 
@@ -151,6 +155,7 @@ void singlePlayer()
     int key = { 0 };
     char playerOneSymbol = ' ';
     char cpuSymbol = ' ';
+    bool multiFlag = false;
 
     //Reset grid squares
     for (int x = 0; x < ROW; x++)
@@ -193,12 +198,70 @@ void singlePlayer()
     /////////////////////DONT NEED NOW displayStartGrid(); //Display start grid
 
     if (diceOne > diceCPU)
-        playerOneMove(playerOneSymbol, cpuSymbol); //Player one makes first move
+        playerOneMove(playerOneSymbol, cpuSymbol, multiFlag); //Player one makes first move
     else
-        cpuMove(cpuSymbol, playerOneSymbol); //CPU makes first move
+        cpuMove(playerOneSymbol, cpuSymbol); //CPU makes first move
         
 }
 
+//Function for single player mode
+void multiPlayer()
+{
+    int playerOneScore = { 0 }; //Reset score to 0
+    int playerTwoScore = { 0 }; //Reset score to 0
+    int diceOne = { 0 };
+    int diceTwo = { 9 };
+    int key = { 0 }; //For continue purposes
+    char playerOneSymbol = ' ';
+    char playerTwoSymbol = ' ';
+    char cpuSymbol = ' ';
+    bool multiFlag = true;
+
+    //Reset grid squares
+    for (int x = 0; x < ROW; x++)
+        for (int y = 0; y < COLUMN; y++)
+            gameArray[x][y] = ' ';
+
+    //CODE BELOW IS TAKING TOO LONG TO EXECUTE. WILL COME BACK TO LATER.
+    ////Repeat dice roll if a tie
+    //do {
+    //    diceOne = diceRoll();
+    //    diceCPU = diceRoll();
+    //} while (diceOne == diceCPU);
+
+    cout << "Game start!" << endl;
+    cout << "Let's determine who goes first by rolling a dice." << endl << endl;
+    cout << "Player One rolled a " << diceOne << "." << endl;
+    cout << "Player Two rolled a " << diceTwo << "." << endl << endl;
+
+    //Determine symbols based on who goes first/second
+    if (diceOne > diceTwo)
+    {
+        playerOneSymbol = 'X';
+        playerTwoSymbol = 'O';
+        cout << "Player One goes first (X)." << endl;
+        cout << "Player Two second (O)." << endl;
+    }
+    else
+    {
+        playerOneSymbol = 'O';
+        playerTwoSymbol = 'X';
+        cout << "Player Two goes first (X)." << endl;
+        cout << "Player One second (O)." << endl;
+
+    }
+
+    cout << "Press a key to continue...";
+    cin >> key;
+    cin.clear();
+
+    /////////////////////DONT NEED NOW displayStartGrid(); //Display start grid
+
+    if (diceOne > diceTwo)
+        playerOneMove(playerOneSymbol, playerTwoSymbol, multiFlag); //Player one makes first move
+    else
+        playerTwoMove(playerOneSymbol, playerTwoSymbol, multiFlag); //CPU makes first move
+}
 
 //Function to display start grid
 void displayStartGrid()
@@ -229,44 +292,84 @@ int diceRoll()
 }
 
 //Function to make player move
-void playerOneMove(char playerOneSymbol, char cpuSymbol)
+void playerOneMove(char playerOneSymbol, char otherSymbol, bool multiFlag)
 {
     int PlayerOneChoice = { 0 };
     bool taken = false;
     
     do {
 
+        cout << endl;
         cout << "Player One, please make a selection (1-9): ";
         cin.ignore();
         cin >> PlayerOneChoice;
-
-
+       
         if (!isdigit(PlayerOneChoice) && (PlayerOneChoice < 1 || PlayerOneChoice > 9))
         {
-            cout << "Invalid choice. Please try again!" << endl;   
             cin.clear();
-            cin.ignore();
-         
+            cout << "Invalid choice. Please try again!" << endl;         
+        }        
+        else {      
+            taken = checkTaken(PlayerOneChoice);
+            if (taken == true)
+                cout << "Square already occupied. Make another selection." << endl;
         }
-
-        cout << endl;
-        taken = checkTaken(PlayerOneChoice);
 
     } while ((PlayerOneChoice != 1 && PlayerOneChoice != 2 && PlayerOneChoice != 3 &&
               PlayerOneChoice != 4 && PlayerOneChoice != 5 && PlayerOneChoice != 6 &&
-              PlayerOneChoice != 7 && PlayerOneChoice != 8 && PlayerOneChoice != 9) && taken==true);
+              PlayerOneChoice != 7 && PlayerOneChoice != 8 && PlayerOneChoice != 9) || (taken==true));
 
-    placePlayerOneSelection(PlayerOneChoice, playerOneSymbol); //Place player's one selection on board
-    displayUpdatedBoard(playerOneSymbol, cpuSymbol); //Display updated game grid board
-    checkIfWin(playerOneSymbol, cpuSymbol); //Check if win occured     
-    cpuMove(cpuSymbol, playerOneSymbol); //CPU goes next
+    placePlayerSelection(PlayerOneChoice, playerOneSymbol); //Place player's one selection on board
+    displayUpdatedBoard(); //Display updated game grid board
+    checkIfWin(playerOneSymbol, otherSymbol, multiFlag); //Check if win occured     
 
+    //Next player goes depending on multiFlag
+    if (multiFlag == false)
+        cpuMove(playerOneSymbol, otherSymbol); //CPU goes next (single player)
+    else
+        playerTwoMove(playerOneSymbol, otherSymbol, multiFlag); //Player goes goes next (multiplayer)
+}
+
+void playerTwoMove(char playerOneSymbol, char playerTwoSymbol, bool multiFlag)
+{
+    int PlayerTwoChoice = { 0 };
+    bool taken = false;
+
+    do {
+
+        cout << endl;
+        cout << "Player Two, please make a selection (1-9): ";
+        cin.ignore();
+        cin >> PlayerTwoChoice;
+        
+        if (!isdigit(PlayerTwoChoice) && (PlayerTwoChoice < 1 || PlayerTwoChoice > 9))
+        {
+            cin.clear();
+            cout << "Invalid choice. Please try again!" << endl;
+        }
+        else {
+            taken = checkTaken(PlayerTwoChoice);
+            if (taken == true)
+                cout << "Square already occupied. Make another selection." << endl;
+        }
+
+    } while ((PlayerTwoChoice != 1 && PlayerTwoChoice != 2 && PlayerTwoChoice != 3 &&
+        PlayerTwoChoice != 4 && PlayerTwoChoice != 5 && PlayerTwoChoice != 6 &&
+        PlayerTwoChoice != 7 && PlayerTwoChoice != 8 && PlayerTwoChoice != 9) || (taken == true));
+
+    placePlayerSelection(PlayerTwoChoice, playerTwoSymbol); //Place player two selection on board
+    displayUpdatedBoard(); //Display updated game grid board
+    checkIfWin(playerOneSymbol, playerTwoSymbol, multiFlag); //Check if win occured     
+
+    //Next player goes 
+    playerOneMove(playerOneSymbol, playerTwoSymbol, multiFlag);
 }
 
 //Function to make cpu move
-void cpuMove(char cpuSymbol, char playerOneSymbol)
+void cpuMove(char playerOneSymbol, char cpuSymbol)
 {
     int randomNum = { 0 };
+    bool multiFlag = false;
 
     cout << endl << endl;
     cout << "Please wait. Computer is thinking";
@@ -754,34 +857,64 @@ void cpuMove(char cpuSymbol, char playerOneSymbol)
         }
     }
     
-    displayUpdatedBoard(playerOneSymbol, cpuSymbol); //Display updated game grid board
-    checkIfWin(playerOneSymbol, cpuSymbol); //Check if win occured       
-    playerOneMove(playerOneSymbol, cpuSymbol); //Player One goes next
+    displayUpdatedBoard(); //Display updated game grid board
+    checkIfWin(playerOneSymbol, cpuSymbol, multiFlag); //Check if win occured       
+    playerOneMove(playerOneSymbol, cpuSymbol, multiFlag); //Player One goes next
 }
 
 bool checkTaken(int choice)
 {
     bool status = false;
 
-    for (int x = 0; x < ROW; x++) {
-        for (int y = 0; y < COLUMN; y++) {
-            if (gameArray[x][y] != ' ')
-                status = false;
-            else
+    switch (choice) {
+        case 1:
+            if (gameArray[0][0] != ' ')
                 status = true;
-        }
+            break;
+        case 2:
+            if (gameArray[0][1] != ' ')
+                status = true;
+            break;
+        case 3:
+            if (gameArray[0][2] != ' ')
+                status = true;
+            break;
+        case 4:
+            if (gameArray[1][0] != ' ')
+                status = true;
+            break;
+        case 5:
+            if (gameArray[1][1] != ' ')
+                status = true;
+            break;
+        case 6:
+            if (gameArray[1][2] != ' ')
+                status = true;
+            break;
+        case 7:
+            if (gameArray[2][0] != ' ')
+                status = true;
+            break;
+        case 8:
+            if (gameArray[2][1] != ' ')
+                status = true;
+            break;
+        default:
+            if (gameArray[2][2] != ' ')
+                status = true;
+            break;
     }
-        
+
     return status;
 }
 
-//Function to place selection on board for player one
-void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
+//Function to place player selection on board
+void placePlayerSelection(int playerChoice, char playerSymbol)
 {
-    switch (PlayerOneChoice)
+    switch (playerChoice)
     {
     case 1:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[0][0] = 'X';
             break;
@@ -792,7 +925,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     case 2:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[0][1] = 'X';
             break;
@@ -803,7 +936,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     case 3:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[0][2] = 'X';
             break;
@@ -814,7 +947,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     case 4:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[1][0] = 'X';
             break;
@@ -825,7 +958,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     case 5:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[1][1] = 'X';
             break;
@@ -836,7 +969,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     case 6:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[1][2] = 'X';
             break;
@@ -847,7 +980,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     case 7:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[2][0] = 'X';
             break;
@@ -858,7 +991,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     case 8:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[2][1] = 'X';
             break;
@@ -869,7 +1002,7 @@ void placePlayerOneSelection(int PlayerOneChoice, char playerOneSymbol)
             break;
         }
     default:
-        if (playerOneSymbol == 'X')
+        if (playerSymbol == 'X')
         {
             gameArray[2][2] = 'X';
             break;
@@ -889,7 +1022,7 @@ void cpuChoicePrint(int cpuChoice)
 }
 
 //Function to display updated game grid boards
-void displayUpdatedBoard(char playerOneSymbol, char cpuSymbol)
+void displayUpdatedBoard()
 {
     cout << endl;
     cout << "Current board: " << endl;
@@ -906,9 +1039,10 @@ void displayUpdatedBoard(char playerOneSymbol, char cpuSymbol)
 }
 
 //Function to check and declare a win/loss condition
-void checkIfWin(char playerOneSymbol, char cpuSymbol)
+void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag)
 {
     bool playerOneWins = false;
+    bool playerTwoWins = false;
     bool cpuWins = false;
     bool isFilled = false;
     bool tie = false;
@@ -1012,102 +1146,205 @@ void checkIfWin(char playerOneSymbol, char cpuSymbol)
             }
     }
 
-    if (cpuSymbol == 'X')
-    {
-        if (gameArray[0][0] == 'X')
-            if (gameArray[0][1] == 'X' && gameArray[0][2] == 'X') {
-                cpuWins = true;
-                winType = "TR";
-                displayWinningBoard(gameArray, winType);
-            }
-            else if (gameArray[1][0] == 'X' && gameArray[2][0] == 'X') {
-                cpuWins = true;
-                winType = "LC";
-                displayWinningBoard(gameArray, winType);
-            }
-            else if (gameArray[1][1] == 'X' && gameArray[2][2] == 'X') {
-                cpuWins = true;
-                winType = "LD";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[1][0] == 'X')
-            if (gameArray[1][1] == 'X' && gameArray[1][2] == 'X') {
-                cpuWins = true;
-                winType = "MR";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[2][0] == 'X')
-            if (gameArray[2][1] == 'X' && gameArray[2][2] == 'X') {
-                cpuWins = true;
-                winType = "BR";
-                displayWinningBoard(gameArray, winType);
-            }
-            else if (gameArray[1][1] == 'X' && gameArray[0][2] == 'X') {
-                cpuWins = true;
-                winType = "RD";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[0][1] == 'X')
-            if (gameArray[1][1] == 'X' && gameArray[2][1] == 'X') {
-                cpuWins = true;
-                winType = "MC";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[0][2] == 'X')
-            if (gameArray[1][2] == 'X' && gameArray[2][2] == 'X') {
-                cpuWins = true;
-                winType = "RC";
-                displayWinningBoard(gameArray, winType);
-            }
-    }
 
-    else if (cpuSymbol == 'O')
-    {
-        if (gameArray[0][0] == 'O')
-            if (gameArray[0][1] == 'O' && gameArray[0][2] == 'O') {
-                cpuWins = true;
-                winType = "TR";
-                displayWinningBoard(gameArray, winType);
-            }
-            else if (gameArray[1][0] == 'O' && gameArray[2][0] == 'O') {
-                cpuWins = true;
-                winType = "LC";
-                displayWinningBoard(gameArray, winType);
-            }
-            else if (gameArray[1][1] == 'O' && gameArray[2][2] == 'O') {
-                cpuWins = true;
-                winType = "LD";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[1][0] == 'O')
-            if (gameArray[1][1] == 'O' && gameArray[1][2] == 'O') {
-                cpuWins = true;
-                winType = "MR";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[2][0] == 'O')
-            if (gameArray[2][1] == 'O' && gameArray[2][2] == 'O') {
-                cpuWins = true;
-                winType = "BR";
-                displayWinningBoard(gameArray, winType);
-            }
-            else if (gameArray[1][1] == 'O' && gameArray[0][2] == 'O') {
-                cpuWins = true;
-                winType = "RD";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[0][1] == 'O')
-            if (gameArray[1][1] == 'O' && gameArray[2][1] == 'O') {
-                cpuWins = true;
-                winType = "MC";
-                displayWinningBoard(gameArray, winType);
-            }
-        if (gameArray[0][2] == 'O')
-            if (gameArray[1][2] == 'O' && gameArray[2][2] == 'O') {
-                cpuWins = true;
-                winType = "RC";
-                displayWinningBoard(gameArray, winType);
-            }
+    if (multiFlag == true) {
+
+        if (otherSymbol == 'X')
+        {
+            if (gameArray[0][0] == 'X')
+                if (gameArray[0][1] == 'X' && gameArray[0][2] == 'X') {
+                    playerTwoWins = true;
+                    winType = "TR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][0] == 'X' && gameArray[2][0] == 'X') {
+                    playerTwoWins = true;
+                    winType = "LC";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'X' && gameArray[2][2] == 'X') {
+                    playerTwoWins = true;
+                    winType = "LD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[1][0] == 'X')
+                if (gameArray[1][1] == 'X' && gameArray[1][2] == 'X') {
+                    playerTwoWins = true;
+                    winType = "MR";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[2][0] == 'X')
+                if (gameArray[2][1] == 'X' && gameArray[2][2] == 'X') {
+                    playerTwoWins = true;
+                    winType = "BR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'X' && gameArray[0][2] == 'X') {
+                    playerTwoWins = true;
+                    winType = "RD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][1] == 'X')
+                if (gameArray[1][1] == 'X' && gameArray[2][1] == 'X') {
+                    playerTwoWins = true;
+                    winType = "MC";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][2] == 'X')
+                if (gameArray[1][2] == 'X' && gameArray[2][2] == 'X') {
+                    playerTwoWins = true;
+                    winType = "RC";
+                    displayWinningBoard(gameArray, winType);
+                }
+        }
+
+        else if (otherSymbol == 'O')
+        {
+            if (gameArray[0][0] == 'O')
+                if (gameArray[0][1] == 'O' && gameArray[0][2] == 'O') {
+                    playerTwoWins = true;
+                    winType = "TR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][0] == 'O' && gameArray[2][0] == 'O') {
+                    playerTwoWins = true;
+                    winType = "LC";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'O' && gameArray[2][2] == 'O') {
+                    playerTwoWins = true;
+                    winType = "LD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[1][0] == 'O')
+                if (gameArray[1][1] == 'O' && gameArray[1][2] == 'O') {
+                    playerTwoWins = true;
+                    winType = "MR";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[2][0] == 'O')
+                if (gameArray[2][1] == 'O' && gameArray[2][2] == 'O') {
+                    playerTwoWins = true;
+                    winType = "BR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'O' && gameArray[0][2] == 'O') {
+                    playerTwoWins = true;
+                    winType = "RD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][1] == 'O')
+                if (gameArray[1][1] == 'O' && gameArray[2][1] == 'O') {
+                    playerTwoWins = true;
+                    winType = "MC";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][2] == 'O')
+                if (gameArray[1][2] == 'O' && gameArray[2][2] == 'O') {
+                    playerTwoWins = true;
+                    winType = "RC";
+                    displayWinningBoard(gameArray, winType);
+                }
+        }
+    }
+    else {
+        if (otherSymbol == 'X')
+        {
+            if (gameArray[0][0] == 'X')
+                if (gameArray[0][1] == 'X' && gameArray[0][2] == 'X') {
+                    cpuWins = true;
+                    winType = "TR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][0] == 'X' && gameArray[2][0] == 'X') {
+                    cpuWins = true;
+                    winType = "LC";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'X' && gameArray[2][2] == 'X') {
+                    cpuWins = true;
+                    winType = "LD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[1][0] == 'X')
+                if (gameArray[1][1] == 'X' && gameArray[1][2] == 'X') {
+                    cpuWins = true;
+                    winType = "MR";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[2][0] == 'X')
+                if (gameArray[2][1] == 'X' && gameArray[2][2] == 'X') {
+                    cpuWins = true;
+                    winType = "BR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'X' && gameArray[0][2] == 'X') {
+                    cpuWins = true;
+                    winType = "RD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][1] == 'X')
+                if (gameArray[1][1] == 'X' && gameArray[2][1] == 'X') {
+                    cpuWins = true;
+                    winType = "MC";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][2] == 'X')
+                if (gameArray[1][2] == 'X' && gameArray[2][2] == 'X') {
+                    cpuWins = true;
+                    winType = "RC";
+                    displayWinningBoard(gameArray, winType);
+                }
+        }
+
+        else if (otherSymbol == 'O')
+        {
+            if (gameArray[0][0] == 'O')
+                if (gameArray[0][1] == 'O' && gameArray[0][2] == 'O') {
+                    cpuWins = true;
+                    winType = "TR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][0] == 'O' && gameArray[2][0] == 'O') {
+                    cpuWins = true;
+                    winType = "LC";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'O' && gameArray[2][2] == 'O') {
+                    cpuWins = true;
+                    winType = "LD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[1][0] == 'O')
+                if (gameArray[1][1] == 'O' && gameArray[1][2] == 'O') {
+                    cpuWins = true;
+                    winType = "MR";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[2][0] == 'O')
+                if (gameArray[2][1] == 'O' && gameArray[2][2] == 'O') {
+                    cpuWins = true;
+                    winType = "BR";
+                    displayWinningBoard(gameArray, winType);
+                }
+                else if (gameArray[1][1] == 'O' && gameArray[0][2] == 'O') {
+                    cpuWins = true;
+                    winType = "RD";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][1] == 'O')
+                if (gameArray[1][1] == 'O' && gameArray[2][1] == 'O') {
+                    cpuWins = true;
+                    winType = "MC";
+                    displayWinningBoard(gameArray, winType);
+                }
+            if (gameArray[0][2] == 'O')
+                if (gameArray[1][2] == 'O' && gameArray[2][2] == 'O') {
+                    cpuWins = true;
+                    winType = "RC";
+                    displayWinningBoard(gameArray, winType);
+                }
+        }
     }
 
     //Check for tie
@@ -1134,6 +1371,18 @@ void checkIfWin(char playerOneSymbol, char cpuSymbol)
         cout << "Player One Wins!" << endl;
         cout << "==========================" << endl << endl;        
         cout << "Returning to main menu." << endl;
+        Sleep(400);
+        displayWelcome();
+        displayMenu();
+    }
+
+    //If player two wins
+    else if (playerTwoWins == true)
+    {
+        cout << "==========================" << endl;
+        cout << "Player Two Wins!" << endl;
+        cout << "==========================" << endl << endl;
+        cout << "Returning to main menu." << endl << endl;
         Sleep(400);
         displayWelcome();
         displayMenu();
