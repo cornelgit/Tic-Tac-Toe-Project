@@ -257,8 +257,8 @@ void playerOneMove(char playerOneSymbol, char cpuSymbol)
               PlayerOneChoice != 7 && PlayerOneChoice != 8 && PlayerOneChoice != 9) && taken==true);
 
     placePlayerOneSelection(PlayerOneChoice, playerOneSymbol); //Place player's one selection on board
-    checkIfWin(playerOneSymbol, cpuSymbol); //Check if win occured
-    displayUpdatedBoard(playerOneSymbol, cpuSymbol); //Display updated game grid board 
+    displayUpdatedBoard(playerOneSymbol, cpuSymbol); //Display updated game grid board
+    checkIfWin(playerOneSymbol, cpuSymbol); //Check if win occured     
     cpuMove(cpuSymbol, playerOneSymbol); //CPU goes next
 
 }
@@ -710,54 +710,52 @@ void cpuMove(char cpuSymbol, char playerOneSymbol)
                 gameArray[1][1] = 'X';
                 cpuChoicePrint(5);
             }
-
-
-
+                       
             //If all other scenarios
             else {
-                if (gameArray[0][0] == ' ') {
+                if (gameArray[1][1] == ' ') {
+                    gameArray[1][1] = 'X';
+                    cpuChoicePrint(5);
+                }
+                else if (gameArray[0][0] == ' ') {
                     gameArray[0][0] = 'X';
                     cpuChoicePrint(1);
-                }
-                else if (gameArray[0][1] == ' ') {
-                    gameArray[0][1] = 'X';
-                    cpuChoicePrint(2);
                 }
                 else if (gameArray[0][2] == ' ') {
                     gameArray[0][2] = 'X';
                     cpuChoicePrint(3);
                 }
-                else if (gameArray[1][0] == ' ') {
-                    gameArray[1][0] = 'X';
-                    cpuChoicePrint(4);
-                }
-                else if (gameArray[1][1] == ' ') {
-                    gameArray[1][1] = 'X';
-                    cpuChoicePrint(5);
-                }
-                else if (gameArray[1][2] == ' ') {
-                    gameArray[1][2] = 'X';
-                    cpuChoicePrint(6);
-                }
                 else if (gameArray[2][0] == ' ') {
                     gameArray[2][0] = 'X';
                     cpuChoicePrint(7);
+                }
+                else if (gameArray[2][2] == ' ') {
+                    gameArray[2][2] = 'X';
+                    cpuChoicePrint(9);
+                }
+                else if (gameArray[0][1] == ' ') {
+                    gameArray[0][1] = 'X';
+                    cpuChoicePrint(2);
+                }
+                else if (gameArray[1][0] == ' ') {
+                    gameArray[1][0] = 'X';
+                    cpuChoicePrint(4);
                 }
                 else if (gameArray[2][1] == ' ') {
                     gameArray[2][1] = 'X';
                     cpuChoicePrint(8);
                 }
                 else {
-                    gameArray[2][2] = 'X';
-                    cpuChoicePrint(9);
-                } //End of all other scenarios for CPU being X
+                    gameArray[1][2] = 'X';
+                    cpuChoicePrint(6);
+                }  //End of all other scenarios for CPU being X
+                
             }
         }
-
     }
     
-    checkIfWin(playerOneSymbol, cpuSymbol); //Check if win occured
-    displayUpdatedBoard(playerOneSymbol, cpuSymbol); //Display updated game grid board   
+    displayUpdatedBoard(playerOneSymbol, cpuSymbol); //Display updated game grid board
+    checkIfWin(playerOneSymbol, cpuSymbol); //Check if win occured       
     playerOneMove(playerOneSymbol, cpuSymbol); //Player One goes next
 }
 
