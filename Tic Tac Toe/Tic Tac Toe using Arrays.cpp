@@ -3,7 +3,6 @@
 //Created by: Cornel Stoica
 //Date: 12/16/19
 
-
 #include <iostream>
 #include <string>
 #include <ctime>
@@ -281,7 +280,7 @@ int diceRoll()
 {
     int result = { 0 };
 
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
     result = rand() % 6 + 1;
 
     return result;
@@ -383,10 +382,10 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
         // If board is empty and CPU goes first
         if (gameArray[0][0] == ' ' && gameArray[0][1] == ' ' && gameArray[0][2] == ' ' && gameArray[1][0] == ' '
             && gameArray[1][1] == ' ' && gameArray[1][2] == ' ' && gameArray[2][0] == ' ' && gameArray[2][1] == ' '
-            && gameArray[2][2] == ' ') {
+            && gameArray[2][2] == ' ') { 
 
             do {
-                srand(time(NULL));
+                srand((unsigned int)time(NULL));
                 randomNum = 1 + rand() % 9;
             } while (randomNum % 2 == 0); //Repeat if random number is even. We want an odd number
 
@@ -621,6 +620,78 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
                 cpuChoicePrint(3);
             } //End of diagonal 2
 
+            //5th Turn placing X to win a fork
+            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[2][0] == 'X' && gameArray[1][0] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][0] == 'X' && gameArray[1][0] == 'O' && gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][0] == 'X' && gameArray[1][0] == 'O' && gameArray[2][0] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][2] == 'X' && gameArray[0][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][2] == 'X' && gameArray[1][0] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][2] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][2] == 'X' && gameArray[2][0] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[0][0] == ' ') {
+                gameArray[0][0] = 'X';
+                cpuChoicePrint(1);
+            }
+            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[0][2] == 'X' && gameArray[1][0] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[0][2] == 'X' && gameArray[2][1] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[0][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][0] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[0][1] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
+            }
+
+            //3rd turn placing x in a corner if 0 is in the middle - corner fork
+            else if (gameArray[1][1] == 'O' && gameArray[0][0] == 'X' && gameArray[2][2] == ' ') {
+                gameArray[2][2] = 'X';
+                cpuChoicePrint(9);
+            }
+            else if (gameArray[1][1] == 'O' && gameArray[0][2] == 'X' && gameArray[2][0] == ' ') {
+                gameArray[2][0] = 'X';
+                cpuChoicePrint(7);
+            }
+            else if (gameArray[1][1] == 'O' && gameArray[2][0] == 'X' && gameArray[0][2] == ' ') {
+                gameArray[0][2] = 'X';
+                cpuChoicePrint(3);
+            }
+            else if (gameArray[1][1] == 'O' && gameArray[2][2] == 'X' && gameArray[0][0] == ' ') {
+                gameArray[0][0] = 'X';
+                cpuChoicePrint(1);
+            } //End of corner fork
+
             //3rd turn placing x diagonally if O is in a corner and X in middle
             else if (gameArray[0][0] == 'O' && gameArray[1][1] == 'X' && gameArray[2][2] == ' ') {
                 gameArray[2][2] = 'X';
@@ -657,46 +728,46 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
                 cpuChoicePrint(7);
             }
             else if (gameArray[0][0] == 'X' && gameArray[2][0] == 'O' && gameArray[0][2] == ' ') {
-            gameArray[0][2] = 'X';
-            cpuChoicePrint(3);
+                gameArray[0][2] = 'X';
+                cpuChoicePrint(3);
             }
             else if (gameArray[0][0] == 'X' && gameArray[2][2] == 'O' && gameArray[2][0] == ' ') {
-            gameArray[2][0] = 'X';
-            cpuChoicePrint(7);
+                gameArray[2][0] = 'X';
+                cpuChoicePrint(7);
             }
             else if (gameArray[0][0] == 'X' && gameArray[0][2] == 'O' && gameArray[2][0] == ' ') {
-            gameArray[2][0] = 'X';
-            cpuChoicePrint(7);
+                gameArray[2][0] = 'X';
+                cpuChoicePrint(7);
             }
 
             //3rd turn placing X in a corner if X starts in square 3
             else if (gameArray[0][2] == 'X' && gameArray[0][1] == 'O' && gameArray[2][2] == ' ') {
-            gameArray[2][2] = 'X';
-            cpuChoicePrint(9);
+                gameArray[2][2] = 'X';
+                cpuChoicePrint(9);
             }
             else if (gameArray[0][2] == 'X' && gameArray[1][0] == 'O' && gameArray[2][2] == ' ') {
-            gameArray[2][2] = 'X';
-            cpuChoicePrint(9);
+                gameArray[2][2] = 'X';
+                cpuChoicePrint(9);
             }
             else if (gameArray[0][2] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == ' ') {
-            gameArray[2][2] = 'X';
-            cpuChoicePrint(9);
+                gameArray[2][2] = 'X';
+                cpuChoicePrint(9);
             }
             else if (gameArray[0][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
-            gameArray[1][1] = 'X';
-            cpuChoicePrint(5);
+                gameArray[1][1] = 'X';
+                cpuChoicePrint(5);
             }
             else if (gameArray[0][2] == 'X' && gameArray[0][0] == 'O' && gameArray[2][2] == ' ') {
-            gameArray[2][2] = 'X';
-            cpuChoicePrint(9);
+                gameArray[2][2] = 'X';
+                cpuChoicePrint(9);                
             }
             else if (gameArray[0][2] == 'X' && gameArray[2][0] == 'O' && gameArray[0][0] == ' ') {
-            gameArray[0][0] = 'X';
-            cpuChoicePrint(1);
+                gameArray[0][0] = 'X';
+                cpuChoicePrint(1);
             }
             else if (gameArray[0][2] == 'X' && gameArray[2][2] == 'O' && gameArray[0][0] == ' ') {
-            gameArray[0][0] = 'X';
-            cpuChoicePrint(1);
+                gameArray[0][0] = 'X';
+                cpuChoicePrint(1);
             }
 
             //3rd turn placing X in a corner if X starts in square 7
@@ -758,57 +829,7 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
                 gameArray[2][0] = 'X';
                 cpuChoicePrint(7);
             }
-            
-            //5th Turn placing X to win a fork
-            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[2][0] == 'X' && gameArray[1][0] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[0][0] == 'X' && gameArray[1][0] == 'O' && gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[0][0] == 'X' && gameArray[1][0] == 'O' && gameArray[2][0] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[0][2] == 'X' && gameArray[0][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[0][2] == 'X' && gameArray[1][0] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
-            gameArray[1][1] = 'X';
-            cpuChoicePrint(5);
-            }
-            else if (gameArray[0][2] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[0][2] == 'X' && gameArray[1][0] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[0][2] == 'X' && gameArray[2][1] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'O' && gameArray[0][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][0] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[0][1] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-            else if (gameArray[2][0] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
-                gameArray[1][1] = 'X';
-                cpuChoicePrint(5);
-            }
-                       
+                                  
             //If all other scenarios
             else {
                 if (gameArray[1][1] == ' ') {
@@ -1417,7 +1438,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
         displayScore(multiFlag, playerOneScore, otherScore); //Display score based on game mode
 
         do {
-            cout << "Continue next match (Y/N)? ";
+            cout << "Continue match (Y/N)? ";
             cin.ignore();
             cin >> continueMatch;
 
@@ -1460,7 +1481,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
         displayScore(multiFlag, playerOneScore, otherScore);
 
         do {
-            cout << "Continue next match (Y/N)? ";
+            cout << "Continue match (Y/N)? ";
             cin.ignore();
             cin >> continueMatch;
 
@@ -1498,7 +1519,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
         displayScore(multiFlag, playerOneScore, otherScore);
 
         do {
-            cout << "Continue next match (Y/N)? ";
+            cout << "Continue match (Y/N)? ";
             cin.ignore();
             cin >> continueMatch;
 
@@ -1536,7 +1557,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
         displayScore(multiFlag, playerOneScore, otherScore);
 
         do {
-            cout << "Continue next match (Y/N)? ";
+            cout << "Continue match (Y/N)? ";
             cin.ignore();
             cin >> continueMatch;
 
@@ -1606,15 +1627,15 @@ void displayWinningBoard(const char gameArray[ROW][COLUMN], string winType)
     else if (winType == "LD") {
         cout << endl;
         cout << "Current board| " << endl;
-        cout << "  \  |     |     " << endl;
+        cout << " \\   |     |     " << endl;
         cout << "  " << gameArray[0][0] << "  |  " << gameArray[0][1] << "  |  " << gameArray[0][2] << endl;
-        cout << "____\|_____|_____" << endl;
-        cout << "     |\     |     " << endl;
+        cout << "____\\|_____|_____" << endl;
+        cout << "     |\\    |     " << endl;
         cout << "  " << gameArray[1][0] << "  |  " << gameArray[1][1] << "  |  " << gameArray[1][2] << endl;
-        cout << "_____|___\_|_____" << endl;
-        cout << "     |     |\    " << endl;
+        cout << "_____|____\\|_____" << endl;
+        cout << "     |     |\\    " << endl;
         cout << "  " << gameArray[2][0] << "  |  " << gameArray[2][1] << "  |  " << gameArray[2][2] << endl;
-        cout << "     |     |   \ " << endl;
+        cout << "     |     |   \\ " << endl;
         cout << endl;
     }
 
@@ -1651,7 +1672,7 @@ void displayWinningBoard(const char gameArray[ROW][COLUMN], string winType)
     else if (winType == "RD") {
         cout << endl;
         cout << "Current board| " << endl;
-        cout << "     |     |  /  " << endl;
+        cout << "     |     |   / " << endl;
         cout << "  " << gameArray[0][0] << "  |  " << gameArray[0][1] << "  |  " << gameArray[0][2] << endl;
         cout << "_____|_____|/____" << endl;
         cout << "     |    /|     " << endl;
@@ -1659,7 +1680,7 @@ void displayWinningBoard(const char gameArray[ROW][COLUMN], string winType)
         cout << "_____|/____|_____" << endl;
         cout << "    /|     |     " << endl;
         cout << "  " << gameArray[2][0] << "  |  " << gameArray[2][1] << "  |  " << gameArray[2][2] << endl;
-        cout << "  /  |     |     " << endl;
+        cout << " /   |     |     " << endl;
         cout << endl;
     }
 
