@@ -624,7 +624,7 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
             //3rd turn placing x diagonally if O is in a corner and X in middle
             else if (gameArray[0][0] == 'O' && gameArray[1][1] == 'X' && gameArray[2][2] == ' ') {
                 gameArray[2][2] = 'X';
-                cpuChoicePrint(9);
+                cpuChoicePrint(9);                
             }
             else if (gameArray[0][2] == 'O' && gameArray[1][1] == 'X' && gameArray[2][0] == ' ') {
                 gameArray[2][0] = 'X';
@@ -642,7 +642,7 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
             //3rd turn placing X in a corner if X starts in square 1
             else if (gameArray[0][0] == 'X' && gameArray[1][0] == 'O' && gameArray[0][2] == ' ') {
                 gameArray[0][2] = 'X';
-                cpuChoicePrint(3);
+                cpuChoicePrint(3);                
             }
             else if (gameArray[0][0] == 'X' && gameArray[2][1] == 'O' && gameArray[0][2] == ' ') {
                 gameArray[0][2] = 'X';
@@ -717,16 +717,16 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
                 cpuChoicePrint(1);
             }
             else if (gameArray[2][0] == 'X' && gameArray[0][0] == 'O' && gameArray[0][2] == ' ') {
-            gameArray[0][2] = 'X';
-            cpuChoicePrint(3);
+                gameArray[0][2] = 'X';
+                cpuChoicePrint(3);
             }
             else if (gameArray[2][0] == 'X' && gameArray[0][2] == 'O' && gameArray[0][0] == ' ') {
-            gameArray[0][0] = 'X';
-            cpuChoicePrint(1);
+                gameArray[0][0] = 'X';
+                cpuChoicePrint(1);
             }
             else if (gameArray[2][0] == 'X' && gameArray[2][2] == 'O' && gameArray[0][0] == ' ') {
-            gameArray[0][0] = 'X';
-            cpuChoicePrint(1);
+                gameArray[0][0] = 'X';
+                cpuChoicePrint(1);
             }
 
             //3rd turn placing X in a corner if X starts in square 9
@@ -747,16 +747,16 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
                 cpuChoicePrint(7);
             }
             else if (gameArray[2][2] == 'X' && gameArray[2][0] == 'O' && gameArray[0][2] == ' ') {
-            gameArray[0][2] = 'X';
-            cpuChoicePrint(3);
+                gameArray[0][2] = 'X';
+                cpuChoicePrint(3);
             }
             else if (gameArray[2][2] == 'X' && gameArray[0][0] == 'O' && gameArray[2][0] == ' ') {
-            gameArray[2][0] = 'X';
-            cpuChoicePrint(7);
+                gameArray[2][0] = 'X';
+                cpuChoicePrint(7);
             }
             else if (gameArray[2][2] == 'X' && gameArray[0][2] == 'O' && gameArray[2][0] == ' ') {
-            gameArray[2][0] = 'X';
-            cpuChoicePrint(7);
+                gameArray[2][0] = 'X';
+                cpuChoicePrint(7);
             }
             
             //5th Turn placing X to win a fork
@@ -1412,7 +1412,8 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
     {
         cout << "==========================" << endl;
         cout << "Player One Wins!" << endl;
-        cout << "==========================" << endl << endl;     
+        cout << "==========================" << endl << endl;
+
         displayScore(multiFlag, playerOneScore, otherScore); //Display score based on game mode
 
         do {
@@ -1420,7 +1421,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
             cin.ignore();
             cin >> continueMatch;
 
-            if (cin.fail() || !isalpha(continueMatch))
+            if (cin.fail() || (toupper(continueMatch) != 'Y' && toupper(continueMatch) != 'N'))
             {
                 cin.clear();
                 cout << "\nInvalid choice. Please try again!" << endl;
@@ -1430,7 +1431,12 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
 
         if (toupper(continueMatch) == 'Y' && multiFlag == false)
         {
-            gameMode(playerOneScore, otherScore); //Go to next match keeping scores saved
+            singlePlayer(playerOneScore, otherScore); //Go to next match keeping scores intact
+        }
+
+        if (toupper(continueMatch) == 'Y' && multiFlag == true)
+        {
+            multiPlayer(playerOneScore, otherScore); //Go to next match keeping scores intact
         }
  
         else
@@ -1450,6 +1456,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
         cout << "==========================" << endl;
         cout << "Player Two Wins!" << endl;
         cout << "==========================" << endl << endl;
+
         displayScore(multiFlag, playerOneScore, otherScore);
 
         do {
@@ -1457,7 +1464,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
             cin.ignore();
             cin >> continueMatch;
 
-            if (cin.fail() || !isalpha(continueMatch))
+            if (cin.fail() || (toupper(continueMatch) != 'Y' && toupper(continueMatch) != 'N'))
             {
                 cin.clear();
                 cout << "\nInvalid choice. Please try again!" << endl;
@@ -1465,9 +1472,9 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
 
         } while (toupper(continueMatch) != 'Y' && toupper(continueMatch) != 'N');
 
-        if (toupper(continueMatch) == 'y')
+        if (toupper(continueMatch) == 'Y')
         {
-            gameMode(playerOneScore, otherScore);
+            multiPlayer(playerOneScore, otherScore);
         }
 
         else
@@ -1487,6 +1494,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
         cout << "==========================" << endl;
         cout << "CPU Wins!" << endl;
         cout << "==========================" << endl << endl;
+
         displayScore(multiFlag, playerOneScore, otherScore);
 
         do {
@@ -1494,7 +1502,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
             cin.ignore();
             cin >> continueMatch;
 
-            if (cin.fail() || !isalpha(continueMatch))
+            if (cin.fail() || (toupper(continueMatch) != 'Y' && toupper(continueMatch) != 'N'))
             {
                 cin.clear();
                 cout << "\nInvalid choice. Please try again!" << endl;
@@ -1504,7 +1512,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
 
         if (toupper(continueMatch) == 'Y')
         {
-            gameMode(playerOneScore, otherScore);
+            singlePlayer(playerOneScore, otherScore);
         }
 
         else
@@ -1532,7 +1540,7 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
             cin.ignore();
             cin >> continueMatch;
 
-            if (cin.fail() || !isalpha(continueMatch))
+            if (cin.fail() || (toupper(continueMatch) != 'Y' && toupper(continueMatch) != 'N'))
             {
                 cin.clear();
                 cout << "\nInvalid choice. Please try again!" << endl;
@@ -1542,7 +1550,12 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
 
         if (toupper(continueMatch) == 'Y' && multiFlag == false)
         {            
-            gameMode(playerOneScore, otherScore);
+            singlePlayer(playerOneScore, otherScore);
+        }
+
+        if (toupper(continueMatch) == 'Y' && multiFlag == true)
+        {
+            multiPlayer(playerOneScore, otherScore);
         }
         
         else
@@ -1554,7 +1567,6 @@ void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int play
             displayWelcome();
             displayMenu();
         }
-
     }
 }
 
