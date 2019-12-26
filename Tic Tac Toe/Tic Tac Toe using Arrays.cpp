@@ -31,7 +31,7 @@ bool checkTaken(int);
 void cpuMove(char, char, int, int);
 int diceRoll();
 void placePlayerSelection(int, char);
-void checkIfWin(char, char, bool, int, int);
+void checkIfWin(char, char, bool, int&, int&);
 void displayUpdatedBoard();
 void cpuChoicePrint(int);
 void displayWinningBoard(const char gameArray[ROW][COLUMN], string);
@@ -1055,7 +1055,7 @@ void displayUpdatedBoard()
 }
 
 //Function to check and declare a win/loss condition
-void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int playerOneScore, int otherScore)
+void checkIfWin(char playerOneSymbol, char otherSymbol, bool multiFlag, int& playerOneScore, int& otherScore)
 {
     bool playerOneWins = false;
     bool playerTwoWins = false;
