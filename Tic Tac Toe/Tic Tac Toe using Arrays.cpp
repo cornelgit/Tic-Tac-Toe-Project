@@ -150,8 +150,8 @@ void displayControls()
 //Function for single player mode
 void singlePlayer(int playerOneScore, int otherScore)
 {  
-    int diceOne = { 0 };
-    int diceCPU = { 9 };
+    int diceOne = { 9 };
+    int diceCPU = { 0 };
     int key = { 0 };
     char playerOneSymbol = ' ';
     char cpuSymbol = ' ';
@@ -641,6 +641,10 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
                 gameArray[1][1] = 'X';
                 cpuChoicePrint(5);
             }
+            else if (gameArray[0][2] == 'X' && gameArray[0][0] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'X';
+            cpuChoicePrint(7);
+            }
             else if (gameArray[0][2] == 'X' && gameArray[2][1] == 'O' && gameArray[2][2] == 'X' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
                 gameArray[1][1] = 'X';
                 cpuChoicePrint(5);
@@ -871,6 +875,351 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
                 
             }
         }
+    }
+
+    //If CPU is O
+    else
+    {
+        //Scenarios for when O is gonna complete a line
+        // Rows 1-3
+        if (gameArray[0][0] == 'O' && gameArray[0][1] == 'O' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        }
+        else if (gameArray[0][0] == 'O' && gameArray[0][2] == 'O' && gameArray[0][1] == ' ') {
+            gameArray[0][1] = 'O';
+            cpuChoicePrint(2);
+        }
+        else if (gameArray[0][1] == 'O' && gameArray[0][2] == 'O' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        } //End of row 1
+        else if (gameArray[1][0] == 'O' && gameArray[1][1] == 'O' && gameArray[1][2] == ' ') {
+            gameArray[1][2] = 'O';
+            cpuChoicePrint(6);
+        }
+        else if (gameArray[1][0] == 'O' && gameArray[1][2] == 'O' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[1][2] == 'O' && gameArray[1][0] == ' ') {
+            gameArray[1][0] = 'O';
+            cpuChoicePrint(4);
+        } // End of row 2
+        else if (gameArray[2][0] == 'O' && gameArray[2][1] == 'O' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[2][0] == 'O' && gameArray[2][2] == 'O' && gameArray[2][1] == ' ') {
+            gameArray[2][1] = 'O';
+            cpuChoicePrint(8);
+        }
+        else if (gameArray[2][1] == 'O' && gameArray[2][2] == 'O' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        } // End of row 3
+
+        //Columns 1-3
+        else if (gameArray[0][0] == 'O' && gameArray[1][0] == 'O' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[0][0] == 'O' && gameArray[2][0] == 'O' && gameArray[1][0] == ' ') {
+            gameArray[1][0] = 'O';
+            cpuChoicePrint(4);
+        }
+        else if (gameArray[1][0] == 'O' && gameArray[2][0] == 'O' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        } //End of column 1
+        else if (gameArray[0][1] == 'O' && gameArray[1][1] == 'O' && gameArray[2][1] == ' ') {
+            gameArray[2][1] = 'O';
+            cpuChoicePrint(8);
+        }
+        else if (gameArray[0][1] == 'O' && gameArray[2][1] == 'O' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[2][1] == 'O' && gameArray[0][1] == ' ') {
+            gameArray[0][1] = 'O';
+            cpuChoicePrint(2);
+        } //End of column 2
+        else if (gameArray[0][2] == 'O' && gameArray[1][2] == 'O' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[0][2] == 'O' && gameArray[2][2] == 'O' && gameArray[1][2] == ' ') {
+            gameArray[1][2] = 'O';
+            cpuChoicePrint(6);
+        }
+        else if (gameArray[1][2] == 'O' && gameArray[2][2] == 'O' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        } //End of column 3
+
+        //Diagonals 1-2
+        else if (gameArray[0][0] == 'O' && gameArray[1][1] == 'O' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[0][0] == 'O' && gameArray[2][2] == 'O' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[2][2] == 'O' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        } //End of diagonal 1
+        else if (gameArray[0][2] == 'O' && gameArray[1][1] == 'O' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[0][2] == 'O' && gameArray[2][0] == 'O' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[2][0] == 'O' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        } //End of diagonal 2 (O's matching)
+
+        //Scenarios for O countering 2nd X
+        // Rows 1-3
+        else if (gameArray[0][0] == 'X' && gameArray[0][1] == 'X' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        }
+        else if (gameArray[0][0] == 'X' && gameArray[0][2] == 'X' && gameArray[0][1] == ' ') {
+            gameArray[0][1] = 'O';
+            cpuChoicePrint(2);
+        }
+        else if (gameArray[0][1] == 'X' && gameArray[0][2] == 'X' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        } //End of row 1
+        else if (gameArray[1][0] == 'X' && gameArray[1][1] == 'X' && gameArray[1][2] == ' ') {
+            gameArray[1][2] = 'O';
+            cpuChoicePrint(6);
+        }
+        else if (gameArray[1][0] == 'X' && gameArray[1][2] == 'X' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'X' && gameArray[1][2] == 'X' && gameArray[1][0] == ' ') {
+            gameArray[1][0] = 'O';
+            cpuChoicePrint(4);
+        } // End of row 2
+        else if (gameArray[2][0] == 'X' && gameArray[2][1] == 'X' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+            }
+        else if (gameArray[2][0] == 'X' && gameArray[2][2] == 'X' && gameArray[2][1] == ' ') {
+            gameArray[2][1] = 'O';
+            cpuChoicePrint(8);
+        }
+        else if (gameArray[2][1] == 'X' && gameArray[2][2] == 'X' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        } // End of row 3
+
+        //Columns 1-3
+        else if (gameArray[0][0] == 'X' && gameArray[1][0] == 'X' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[0][0] == 'X' && gameArray[2][0] == 'X' && gameArray[1][0] == ' ') {
+            gameArray[1][0] = 'O';
+            cpuChoicePrint(4);
+        }
+        else if (gameArray[1][0] == 'X' && gameArray[2][0] == 'X' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        } //End of column 1
+        else if (gameArray[0][1] == 'X' && gameArray[1][1] == 'X' && gameArray[2][1] == ' ') {
+            gameArray[2][1] = 'O';
+            cpuChoicePrint(8);
+        }
+        else if (gameArray[0][1] == 'X' && gameArray[2][1] == 'X' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'X' && gameArray[2][1] == 'X' && gameArray[0][1] == ' ') {
+            gameArray[0][1] = 'O';
+            cpuChoicePrint(2);
+        } //End of column 2
+        else if (gameArray[0][2] == 'X' && gameArray[1][2] == 'X' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[0][2] == 'X' && gameArray[2][2] == 'X' && gameArray[1][2] == ' ') {
+            gameArray[1][2] = 'O';
+            cpuChoicePrint(6);
+        }
+        else if (gameArray[1][2] == 'X' && gameArray[2][2] == 'X' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        } //End of column 3
+
+        //Diagonals 1-2
+        else if (gameArray[0][0] == 'X' && gameArray[1][1] == 'X' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[0][0] == 'X' && gameArray[2][2] == 'X' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'X' && gameArray[2][2] == 'X' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        }//End of diagonal 1
+        else if (gameArray[0][2] == 'X' && gameArray[1][1] == 'X' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[0][2] == 'X' && gameArray[2][0] == 'X' && gameArray[1][1] == ' ') {
+            gameArray[1][1] = 'O';
+            cpuChoicePrint(5);
+        }
+        else if (gameArray[1][1] == 'X' && gameArray[2][0] == 'X' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        } //End of diagonal 2
+
+        //5th turn O countering X corner forks with O in middle
+        else if (gameArray[1][1] == 'O' && gameArray[0][0] == 'X' && gameArray[2][1] == 'X' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[0][0] == 'X' && gameArray[1][2] == 'X' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[0][2] == 'X' && gameArray[2][1] == 'X' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[0][2] == 'X' && gameArray[1][0] == 'X' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[2][0] == 'X' && gameArray[1][2] == 'X' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[2][0] == 'X' && gameArray[0][1] == 'X' && gameArray[0][0] == ' ') {
+            gameArray[0][0] = 'O';
+            cpuChoicePrint(1);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[1][0] == 'X' && gameArray[2][2] == 'X' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[0][1] == 'X' && gameArray[2][2] == 'X' && gameArray[0][2] == ' ') {
+            gameArray[0][2] = 'O';
+            cpuChoicePrint(3);
+        }
+
+        //4th Turn O countering X diagonal forks
+        else if (gameArray[0][0] == 'O' && gameArray[1][1] == 'X' && gameArray[2][2] == 'X' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[0][2] == 'O' && gameArray[1][1] == 'X' && gameArray[2][0] == 'X' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+        else if (gameArray[2][2] == 'O' && gameArray[1][1] == 'X' && gameArray[0][0] == 'X' && gameArray[2][0] == ' ') {
+            gameArray[2][0] = 'O';
+            cpuChoicePrint(7);
+        }
+        else if (gameArray[2][0] == 'O' && gameArray[1][1] == 'X' && gameArray[1][2] == 'X' && gameArray[2][2] == ' ') {
+            gameArray[2][2] = 'O';
+            cpuChoicePrint(9);
+        }
+
+        //4th Turn if X doesn't go in Middle, adjacent X's and adjacent O's
+        else if (gameArray[0][0] == 'O' && gameArray[1][0] == 'X' && gameArray[2][0] == 'X' && gameArray[0][1] == ' ') {
+            gameArray[0][1] = 'O';
+            cpuChoicePrint(2);
+        }
+        else if (gameArray[0][0] == 'O' && gameArray[0][1] == 'X' && gameArray[0][2] == 'X' && gameArray[1][0] == ' ') {
+            gameArray[1][0] = 'O';
+            cpuChoicePrint(4);
+        }
+        else if (gameArray[2][0] == 'O' && gameArray[1][0] == 'X' && gameArray[0][0] == 'X' && gameArray[2][1] == ' ') {
+            gameArray[2][1] = 'O';
+            cpuChoicePrint(8);
+        }
+        else if (gameArray[2][0] == 'O' && gameArray[2][1] == 'X' && gameArray[2][2] == 'X' && gameArray[1][0] == ' ') {
+            gameArray[1][0] = 'O';
+            cpuChoicePrint(4);
+        }
+        else if (gameArray[2][2] == 'O' && gameArray[2][0] == 'X' && gameArray[2][1] == 'X' && gameArray[1][2] == ' ') {
+            gameArray[1][2] = 'O';
+            cpuChoicePrint(6);
+        }
+        else if (gameArray[2][2] == 'O' && gameArray[1][2] == 'X' && gameArray[0][2] == 'X' && gameArray[2][1] == ' ') {
+            gameArray[2][1] = 'O';
+            cpuChoicePrint(8);
+        }
+        else if (gameArray[0][2] == 'O' && gameArray[0][0] == 'X' && gameArray[0][1] == 'X' && gameArray[1][2] == ' ') {
+            gameArray[1][2] = 'O';
+            cpuChoicePrint(6);
+        }
+        else if (gameArray[0][2] == 'O' && gameArray[1][2] == 'X' && gameArray[2][2] == 'X' && gameArray[0][1] == ' ') {
+            gameArray[0][1] = 'O';
+            cpuChoicePrint(2);
+        }
+
+        //4th turn counter corner fork with O in middle
+        else if (gameArray[0][0] == 'X' && gameArray[1][1] == 'O' && gameArray[2][2] == 'X' && gameArray[0][1] == ' ') {
+            gameArray[0][1] = 'O';
+            cpuChoicePrint(2);
+        }
+        else if (gameArray[2][0] == 'X' && gameArray[1][1] == 'O' && gameArray[0][2] == 'X' && gameArray[1][2] == ' ') {
+            gameArray[1][2] = 'O';
+            cpuChoicePrint(6);
+        }
+
+        //All other scenarios
+        else
+            if (gameArray[1][1] == ' '){
+                gameArray[1][1] = 'O';
+                cpuChoicePrint(5);
+            }
+            else if (gameArray[0][0] == ' ') {
+                gameArray[0][0] = 'O';
+                cpuChoicePrint(1);
+            }
+            else if (gameArray[0][2] == ' ') {
+                gameArray[0][2] = 'O';
+                cpuChoicePrint(3);
+            }
+            else if (gameArray[2][0] == ' ') {
+                gameArray[2][0] = 'O';
+                cpuChoicePrint(7);
+            }
+            else if (gameArray[2][2] == ' ') {
+                gameArray[2][2] = 'O';
+                cpuChoicePrint(9);
+            }
+            else if (gameArray[0][1] == ' ') {
+                gameArray[0][1] = 'O';
+                cpuChoicePrint(2);
+            }
+            else if (gameArray[1][0] == ' ') {
+                gameArray[1][0] = 'O';
+                cpuChoicePrint(4);
+            }
+            else if (gameArray[1][2] == ' ') {
+                gameArray[1][2] = 'O';
+                cpuChoicePrint(6);
+            }
+            else {
+                gameArray[2][1] = 'O';
+                cpuChoicePrint(8);
+            }
     }
     
     displayUpdatedBoard(); //Display updated game grid board
