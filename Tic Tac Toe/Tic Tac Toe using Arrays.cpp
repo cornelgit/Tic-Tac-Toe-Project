@@ -158,9 +158,11 @@ void singlePlayer(int playerOneScore, int otherScore)
     bool multiFlag = false;
 
     //Reset grid squares
-    for (int x = 0; x < ROW; x++)
-        for (int y = 0; y < COLUMN; y++)
+    for (int x = 0; x < ROW; x++) {
+        for (int y = 0; y < COLUMN; y++) {
             gameArray[x][y] = ' ';
+        }
+    }
 
     //CODE BELOW IS TAKING TOO LONG TO EXECUTE. WILL COME BACK TO LATER.
     ////Repeat dice roll if a tie
