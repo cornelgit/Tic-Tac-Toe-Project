@@ -1088,7 +1088,7 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
             cpuChoicePrint(3);
         } //End of diagonal 2
 
-        //5th turn O countering X corner forks with O in middle
+        //4th turn O countering X corner forks with O in middle
         else if (gameArray[1][1] == 'O' && gameArray[0][0] == 'X' && gameArray[2][1] == 'X' && gameArray[2][0] == ' ') {
             gameArray[2][0] = 'O';
             cpuChoicePrint(7);
@@ -1120,6 +1120,10 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
         else if (gameArray[1][1] == 'O' && gameArray[0][1] == 'X' && gameArray[2][2] == 'X' && gameArray[0][2] == ' ') {
             gameArray[0][2] = 'O';
             cpuChoicePrint(3);
+        }
+        else if (gameArray[1][1] == 'O' && gameArray[1][2] == 'X' && gameArray[2][1] == 'X' && gameArray[2][2] == ' ') {
+        gameArray[2][2] = 'O';
+        cpuChoicePrint(9);
         }
 
         //4th Turn O countering X diagonal forks
