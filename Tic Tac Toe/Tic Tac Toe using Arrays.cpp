@@ -60,6 +60,7 @@ void displayMenu()
     int menuOption = { 0 };
     int playerOneScore = { 0 };
     int otherScore = { 0 };
+    srand((unsigned int)time(NULL));
 
     do {
         cout << "Main menu." << endl;
@@ -164,15 +165,15 @@ void singlePlayer(int playerOneScore, int otherScore)
         }
     }
 
-    //CODE BELOW IS TAKING TOO LONG TO EXECUTE. WILL COME BACK TO LATER.
-    ////Repeat dice roll if a tie
-    //do {
-    //    diceOne = diceRoll();
-    //    diceCPU = diceRoll();
-    //} while (diceOne == diceCPU);
+    //Determine who goes first/second
+    do {
+        diceOne = diceRoll();
+        diceCPU = diceRoll();
+    } while (diceOne == diceCPU); //Repeat dice roll if a tie
     
     cout << "Game start!" << endl;
     cout << "Let's determine who goes first by rolling a dice." << endl << endl;
+    Sleep(600);
     cout << "Player One rolled a " << diceOne << "." << endl;
     cout << "CPU rolled a " << diceCPU << "." << endl << endl;
     
@@ -196,7 +197,7 @@ void singlePlayer(int playerOneScore, int otherScore)
     cin >> key;       
     cin.clear(); //Clear cin state after key press
 
-    /////////////////////DONT NEED NOW displayStartGrid(); //Display start grid
+    displayStartGrid(); //Display start grid
 
     if (diceOne > diceCPU)
         playerOneMove(playerOneSymbol, cpuSymbol, multiFlag, playerOneScore, otherScore); //Player one makes first move
@@ -216,19 +217,21 @@ void multiPlayer(int playerOneScore, int otherScore)
     bool multiFlag = true;
 
     //Reset grid squares
-    for (int x = 0; x < ROW; x++)
-        for (int y = 0; y < COLUMN; y++)
+    for (int x = 0; x < ROW; x++) {
+        for (int y = 0; y < COLUMN; y++) {
             gameArray[x][y] = ' ';
+        }
+    }
 
-    //CODE BELOW IS TAKING TOO LONG TO EXECUTE. WILL COME BACK TO LATER.
-    ////Repeat dice roll if a tie
-    //do {
-    //    diceOne = diceRoll();
-    //    diceCPU = diceRoll();
-    //} while (diceOne == diceCPU);
+    //Determine who goes first/second
+    do {
+        diceOne = diceRoll();
+        diceTwo = diceRoll();
+    } while (diceOne == diceTwo); //Repeat dice roll if a tie
 
     cout << "Game start!" << endl;
     cout << "Let's determine who goes first by rolling a dice." << endl << endl;
+    Sleep(600);
     cout << "Player One rolled a " << diceOne << "." << endl;
     cout << "Player Two rolled a " << diceTwo << "." << endl << endl;
 
@@ -266,13 +269,13 @@ void displayStartGrid()
     cout << endl << endl;
     cout << "Current board: " << endl;
     cout << "     :     :     " << endl;
-    cout << "     :     :     " << endl;
+    cout << "  1  :  2  :  3  " << endl;
     cout << "_____:_____:_____" << endl;
     cout << "     :     :     " << endl;
-    cout << "     :     :     " << endl;
+    cout << "  4  :  5  :  6  " << endl;
     cout << "_____:_____:_____" << endl;
     cout << "     :     :     " << endl;
-    cout << "     :     :     " << endl;
+    cout << "  7  :  8  :  9  " << endl;
     cout << "     :     :     " << endl;
     cout << endl;
 }
@@ -280,10 +283,8 @@ void displayStartGrid()
 //Function to get dice roll
 int diceRoll()
 {
-    int result = { 0 };
-
-    srand((unsigned int)time(NULL));
-    result = rand() % 6 + 1;
+    int result = { 0 };  
+    result = 1 + rand() % 6;
 
     return result;
 }
@@ -386,8 +387,7 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
             && gameArray[1][1] == ' ' && gameArray[1][2] == ' ' && gameArray[2][0] == ' ' && gameArray[2][1] == ' '
             && gameArray[2][2] == ' ') { 
 
-            do {
-                srand((unsigned int)time(NULL));
+            do {               
                 randomNum = 1 + rand() % 9;
             } while (randomNum % 2 == 0); //Repeat if random number is even. We want an odd number
 
