@@ -152,7 +152,7 @@ void displayControls()
 //Function for single player mode
 void singlePlayer(int playerOneScore, int otherScore)
 {  
-    int diceOne = { 9 };
+    int diceOne = { 0 };
     int diceCPU = { 0 };
     int key = { 0 };
     char playerOneSymbol = ' ';
@@ -170,7 +170,13 @@ void singlePlayer(int playerOneScore, int otherScore)
     do {
         diceOne = diceRoll();
         diceCPU = diceRoll();
+
+        if (diceCPU > 1)
+            diceCPU -= 1; //make it more fair for player 1 to go first
+
     } while (diceOne == diceCPU); //Repeat dice roll if a tie
+
+    
     
     cout << "Game start!" << endl;
     cout << "Let's determine who goes first by rolling a dice." << endl << endl;
@@ -194,7 +200,7 @@ void singlePlayer(int playerOneScore, int otherScore)
         cout << "Player One goes second (O)." << endl;
     }
 
-    cout << "Press a key to continue...";
+    cout << "Press a key then [ENTER] to continue...";
     cin >> key;       
     cin.clear(); //Clear cin state after key press
 
@@ -210,7 +216,7 @@ void singlePlayer(int playerOneScore, int otherScore)
 void multiPlayer(int playerOneScore, int otherScore)
 {
     int diceOne = { 0 };
-    int diceTwo = { 9 };
+    int diceTwo = { 0 };
     int key = { 0 }; //For continuation purposes
     char playerOneSymbol = ' ';
     char playerTwoSymbol = ' ';
@@ -252,7 +258,7 @@ void multiPlayer(int playerOneScore, int otherScore)
         cout << "Player One second (O)." << endl;
     }
 
-    cout << "\nPress a key to continue...";
+    cout << "\nPress a key then [ENTER] to continue...";
     cin >> key;
     cin.clear();
 
