@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v142:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0
-Debug|Win32|C:\Users\C0rnel\Desktop\C++ Projects\Tic Tac Toe with Array Game\Tic Tac Toe\|
+PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.25.28610:TargetPlatformVersion=10.0.18362.0:
+Debug|Win32|C:\Users\C0rnel\Source\Repos\Tic-Tac-Toe-Project\Tic Tac Toe\|
