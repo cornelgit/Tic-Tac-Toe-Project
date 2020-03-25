@@ -874,4 +874,3 @@ void cpuMove(char playerOneSymbol, char cpuSymbol, int playerOneScore, int other
     checkIfWin(playerOneSymbol, cpuSymbol, multiFlag, playerOneScore, otherScore); //Check if win occured       
     playerOneMove(playerOneSymbol, cpuSymbol, multiFlag, playerOneScore, otherScore); //Player One goes next
 }
-

@@ -42,6 +42,7 @@ void displayMenu()
 
     if (menuOption == 1)
         gameMode(playerOneScore, otherScore);
+
     else if (menuOption == 2)
     {
         displayControls();

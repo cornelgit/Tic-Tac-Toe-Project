@@ -17,7 +17,7 @@ int main()
     displayWelcome();
     displayMenu();
 
-    std::cout << std::endl << std::endl; //Extra space
+    std::cout << "\n\n"; //Extra space
 
     return 0;
 }
