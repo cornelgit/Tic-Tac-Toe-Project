@@ -5,7 +5,7 @@ const int ROW = 3;
 const int COLUMN = 3;
 
 //Array
-char gameArray[ROW][COLUMN] = { ' ' };
+static char gameArray[ROW][COLUMN] = { ' ' };
 
 //Function prototypes
 void displayMenu();

@@ -23,10 +23,18 @@ Game begins with a welcome message from which a main menu with options is displa
 
 
 
-Code revision 3/23/20
+Code revisions:
+
+3/23/20
 
 - Got rid of bloat by removing "using namespace std." By not including the entirety of the std namespace into the current namespace
   of the program, I opted for the scope resolution operator(::).
 - Created a header file for constant and function prototypes.
 - Created two more .ccp files (one for the large cpu move logic function and another for the rest of the functions).
+- Tested the game again (works groovy).
+
+11/1/20
+
+- Changed the gameArray variable to static char in the header file. This restricts the scope of the definition to the current
+  object file, and allows multiple object files to have their own copy of the variable.
 - Tested the game again (works groovy).

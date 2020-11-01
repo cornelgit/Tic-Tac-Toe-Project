@@ -4,7 +4,6 @@
 #include "windows.h" //For sleep
 #include "tictactoe.h"
 
-
 //Function to display welcome message
 void displayWelcome()
 {

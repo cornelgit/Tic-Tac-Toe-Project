@@ -18,8 +18,16 @@
     <ClCompile Include="Tic Tac Toe using Arrays.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cpumoves.cpp">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="tictactoe.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpumoves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tictactoe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
